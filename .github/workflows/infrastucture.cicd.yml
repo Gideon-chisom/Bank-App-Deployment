@@ -3,17 +3,17 @@ name: Deploy Infrastructure (Terraform)
 on:
   push:
     branches:
-      - main
+    - main
     paths:
-      - 'infrastructure/**'
+    - 'Infrastructure/**'
 
 permissions:
   contents: read
-  id-token: write   # for OIDC (future-ready)
+  id-token: write # for OIDC (future-ready)
 
 jobs:
   deploy-iac:
-    runs-on: ubuntu-latest   # switch to self-hosted later if needed
+    runs-on: ubuntu-latest # switch to self-hosted later if needed
 
     steps:
     - name: Checkout repository
@@ -60,7 +60,6 @@ jobs:
       run: |
         cd infrastructure
         terraform plan
-
     # - name: Terraform Apply
     #   run: |
     #     cd infrastructure
