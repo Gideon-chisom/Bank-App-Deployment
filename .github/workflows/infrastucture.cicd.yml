@@ -58,28 +58,29 @@ jobs:
       run: |
         cd infrastructure
         terraform plan
-    # - name: Terraform Apply
-    #   run: |
-    #     cd infrastructure
-    #     terraform apply -auto-approve
+        
+    - name: Terraform Apply
+      run: |
+        cd infrastructure
+        terraform apply -auto-approve
 
-    # - name: Install kubectl
-    #   run: |
-    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    #     chmod +x ./kubectl
-    #     sudo mv ./kubectl /usr/local/bin/kubectl
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
 
-    # - name: Authenticate to EKS Cluster
-    #   run: |
-    #     aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region us-east-1
+    - name: Authenticate to EKS Cluster
+      run: |
+        aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region us-east-1
 
-    # - name: Deploy ClusterIssuer
-    #   run: |
-    #     kubectl apply -f infrastructure/ClusterIssuer.yaml
+    - name: Deploy ClusterIssuer
+      run: |
+        kubectl apply -f infrastructure/ClusterIssuer.yaml
 
-    # - name: Deploy ArgoCD Ingress
-    #   run: |
-    #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+    - name: Deploy ArgoCD Ingress
+      run: |
+        kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
     # - name: Terraform Destroy
     #   run: |
