@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-    - 'Infrastructure/**'
+    - 'infrastructure/**'
 
 permissions:
   contents: read
