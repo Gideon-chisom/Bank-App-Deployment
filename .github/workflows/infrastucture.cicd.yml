@@ -1,0 +1,90 @@
+name: Deploy Infrastructure (Terraform)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'infrastructure/**'
+
+permissions:
+  contents: read
+  id-token: write   # for OIDC (future-ready)
+
+jobs:
+  deploy-iac:
+    runs-on: ubuntu-latest   # switch to self-hosted later if needed
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Install tfsec
+      run: |
+        curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
+        chmod +x tfsec
+
+    - name: Terraform Init
+      run: |
+        cd infrastructure
+        terraform init
+
+    - name: Terraform Format
+      run: |
+        cd infrastructure
+        terraform fmt
+
+    - name: Terraform Validate
+      run: |
+        cd infrastructure
+        terraform validate
+
+    - name: tfsec Security Scan
+      run: |
+        cd infrastructure
+        ./tfsec . || true
+
+    - name: Terraform Plan
+      run: |
+        cd infrastructure
+        terraform plan
+
+    # - name: Terraform Apply
+    #   run: |
+    #     cd infrastructure
+    #     terraform apply -auto-approve
+
+    # - name: Install kubectl
+    #   run: |
+    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    #     chmod +x ./kubectl
+    #     sudo mv ./kubectl /usr/local/bin/kubectl
+
+    # - name: Authenticate to EKS Cluster
+    #   run: |
+    #     aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region us-east-1
+
+    # - name: Deploy ClusterIssuer
+    #   run: |
+    #     kubectl apply -f infrastructure/ClusterIssuer.yaml
+
+    # - name: Deploy ArgoCD Ingress
+    #   run: |
+    #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+
+    # - name: Terraform Destroy
+    #   run: |
+    #     cd infrastructure
+    #     terraform destroy -auto-approve
