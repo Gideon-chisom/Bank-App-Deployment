@@ -14,7 +14,7 @@ provider "kubernetes" {
 }
 
 data "aws_eks_cluster_auth" "eks" {
-    name = aws_eks_cluster.eks.name
+    name = eks-cluster
 }
 resource "helm_release" "nginx_ingress" {
     name       = "nginx-ingress"
