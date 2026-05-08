@@ -87,10 +87,15 @@ variable "private_subnet_ids" {
   description = "List of private subnet IDs"
 }
 variable "cluster_name" {
+  description = "The name of the EKS cluster"
+  type        = string
+  default     = "eks-cluster"
 }
 
 variable "repository_name" {
-  
+  description = "Name of the ECR repository"
+  type        = string
+  default     = "eks-repository"
 }
 
 variable "domain-name" {
