@@ -1,0 +1,12 @@
+# Ensure shell scripts use LF line endings
+*.sh text eol=lf
+
+# YAML files also get LF endings (common in CI pipelines)
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Environment files as text (Git will handle line endings)
+*.env text
+
+# Optional: Force text files to use LF globally
+* text=auto
