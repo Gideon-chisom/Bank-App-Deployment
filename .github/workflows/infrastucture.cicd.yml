@@ -54,16 +54,6 @@ jobs:
         cd infrastructure
         ./tfsec . || true
 
-    - name: Terraform Plan
-      run: |
-        cd infrastructure
-        terraform plan
-
-    - name: Terraform Apply
-      run: |
-        cd infrastructure
-        terraform apply -auto-approve
-
     - name: Install kubectl
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -81,6 +71,16 @@ jobs:
     - name: Deploy ArgoCD Ingress
       run: |
         kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+
+    - name: Terraform Plan
+      run: |
+        cd infrastructure
+        terraform plan
+
+    - name: Terraform Apply
+      run: |
+        cd infrastructure
+        terraform apply -auto-approve
     # - name: Terraform Destroy
     #   run: |
     #     cd infrastructure
