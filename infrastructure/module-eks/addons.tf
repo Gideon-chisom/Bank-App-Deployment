@@ -61,7 +61,13 @@ resource "helm_release" "cert_manager" {
     wait_for_jobs   = true
     timeout         = 1200
 
-    depends_on = [ helm_release.nginx_ingress ]
+     # 🔥 CRITICAL FIX
+    atomic          = true
+    cleanup_on_fail = true
+
+    depends_on = [
+    aws_eks_node_group.eks_node_group
+    ]
 }
 
 resource "helm_release" "argocd" {
