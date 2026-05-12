@@ -39,7 +39,7 @@ variable "desired_size" {
 variable "max_size" {
   description = "Maximum size of the EKS node group"
   type        = number
-  default     = 6
+  default     = 4
 }
 
 variable "min_size" {
@@ -51,7 +51,7 @@ variable "min_size" {
 variable "instance_types" {
   description = "Instance types for the EKS node group"
   type        = list(string)
-  default     = ["t2.micro"]    
+  default     = ["t3.medium"]    
 } 
 
 variable "capacity_type" {
