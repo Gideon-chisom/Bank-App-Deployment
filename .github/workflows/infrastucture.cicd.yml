@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   deploy-iac:
-    runs-on: ubuntu-latest # switch to self-hosted later if needed
+    runs-on: terraform # switch to self-hosted later if needed
 
     steps:
     - name: Checkout repository
@@ -58,7 +58,6 @@ jobs:
       run: |
         cd infrastructure
         terraform plan
-
     # - name: Terraform Apply
     #   run: |
     #     cd infrastructure
@@ -82,7 +81,7 @@ jobs:
     #   run: |
     #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
-    - name: Terraform Destroy
-      run: |
-        cd infrastructure
-        terraform destroy -auto-approve
+    # - name: Terraform Destroy
+    #   run: |
+    #     cd infrastructure
+    #     terraform destroy -auto-approve
