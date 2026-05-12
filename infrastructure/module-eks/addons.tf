@@ -52,13 +52,14 @@ resource "helm_release" "cert_manager" {
     namespace  = "cert-manager"
     create_namespace = true
 
-    timeout = 600
-    wait    = true
-
     set {
         name  = "installCRDs"
         value = "true"
     }
+
+    wait            = true
+    wait_for_jobs   = true
+    timeout         = 1200
 
     depends_on = [ helm_release.nginx_ingress ]
 }
