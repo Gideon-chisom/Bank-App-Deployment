@@ -59,15 +59,17 @@ variable "capacity_type" {
   type        = string
   default     = "ON_DEMAND"
 }
+
 variable "eks_version" {
   description = "EKS cluster version"
   type        = string
-  default     = "1.32"
+  default     = "1.33"
 }
+
 variable "ami_type" {
   description = "AMI type for the EKS node group"
   type        = string
-  default     = "AL2_x86_64" # Use AL2_x86_64 for x86 instances, AL2_ARM_64 for ARM instances
+  default     = "AL2023_x86_64_STANDARD" # Use _x86_64 for x86 instances, _ARM_64 for ARM instances
 }
 
 variable "label_one" {
@@ -79,17 +81,26 @@ variable "label_one" {
 # variable "subnet_ids" {
 #   type = list(string)
 # }
+
 variable "public_subnet_ids" {
   type = list(string)
 }
+
 variable "private_subnet_ids" {
   type = list(string)
   description = "List of private subnet IDs"
 }
+
 variable "cluster_name" {
+  description = "The name of the EKS cluster"
+  type        = string
+  default     = "eks-cluster"
 }
 
 variable "repository_name" {
+  description = "Name of the ECR repository"
+  type        = string
+  default     = "eks-repository"
 }
 
 variable "domain-name" {

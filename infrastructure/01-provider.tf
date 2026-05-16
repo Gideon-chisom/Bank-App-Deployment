@@ -1,8 +1,3 @@
-# provider "aws" {
-#   region = "us-east-1"
-# }
-
-
 terraform {
   required_providers {
     namecheap = {
@@ -15,7 +10,7 @@ terraform {
     }
          helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.9" # Use a compatible Helm provider version
+      version = "~> 2.13" # Use a compatible Helm provider version
     }
   }
 }

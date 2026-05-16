@@ -44,7 +44,11 @@ resource "helm_release" "nginx_ingress" {
     create_namespace = true
 
     values = [file("${path.module}/nginx-ingress-values.yaml")]
-    depends_on = [ aws_eks_node_group.eks_node_group ]
+    
+    wait = true
+    timeout = 600
+
+    depends_on = [ helm_release.cert_manager ]
 }
 
 data "aws_lb" "nginx_ingress" {
@@ -56,29 +60,29 @@ data "aws_lb" "nginx_ingress" {
 }
 
 resource "helm_release" "cert_manager" {
-    name       = "cert-manager"
-    repository = "https://charts.jetstack.io"
-    chart      = "cert-manager"
-    version    = "1.14.5"
-    namespace  = "cert-manager"
-    create_namespace = true
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "1.14.5"
+  namespace  = "cert-manager"
+  create_namespace = true
 
-    set {
-        name  = "installCRDs"
-        value = "true"
-    }
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
 
-    wait            = true
-    wait_for_jobs   = true
-    timeout         = 1200
+  wait            = true
+  wait_for_jobs   = true
+  timeout         = 1200
 
-     # 🔥 CRITICAL FIX
-    atomic          = true
-    cleanup_on_fail = true
+  # 🔥 CRITICAL FIX
+  atomic          = true
+  cleanup_on_fail = true
 
-    depends_on = [
-    aws_eks_node_group.eks_node_group
-    ]
+  depends_on = [
+  aws_eks_node_group.eks_node_group
+  ]
 }
 
 resource "helm_release" "argocd" {
@@ -94,5 +98,5 @@ resource "helm_release" "argocd" {
     force_update = true
     # Mark to skip resource if CRDs are not critical
     skip_crds = true
-    depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager]
+    depends_on = [ helm_release.nginx_ingress ]
 }

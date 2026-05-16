@@ -107,7 +107,7 @@ variable "namecheap_username" {
 variable "namecheap_client_ip" {
   description = "Client IP for Namecheap API access"
   type        = string
-  default     = "54.146.53.31" # Replace with your actual client IP
+  default     = "54.84.191.97" # Replace with your actual client IP
 }
 
 #===========
@@ -158,7 +158,6 @@ variable "repository_name" {
   description = "Name of the ECR repository"
   type        = string
   default     = "eks-repository"
-  
 }
 
 variable "email" {
