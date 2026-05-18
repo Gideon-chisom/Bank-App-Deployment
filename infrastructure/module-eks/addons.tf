@@ -72,9 +72,13 @@ resource "helm_release" "cert_manager" {
     value = "true"
   }
 
-  wait            = true
-  wait_for_jobs   = true
-  timeout         = 1200
+  wait            = false
+  wait_for_jobs   = false
+  #timeout         = 1200
+
+  # 🔥 CRITICAL FIX
+  atomic          = false
+  cleanup_on_fail = false
 
   depends_on = [
   aws_eks_node_group.eks_node_group

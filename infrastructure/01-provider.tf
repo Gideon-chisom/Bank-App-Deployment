@@ -6,11 +6,15 @@ terraform {
     }
     aws = {
       source = "hashicorp/aws"
-      version = "6.0.0-beta2"
+      version = "5.51"
     }
-         helm = {
+    helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.13" # Use a compatible Helm provider version
+      version = "~> 2.12.1" # Use a compatible Helm provider version
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.29"
     }
   }
 }

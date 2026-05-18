@@ -59,10 +59,10 @@ jobs:
         cd infrastructure
         terraform plan
         
-    # - name: Terraform Apply
-    #   run: |
-    #     cd infrastructure
-    #     terraform apply -auto-approve
+    - name: Terraform Apply
+      run: |
+        cd infrastructure
+        terraform apply -auto-approve
 
     # - name: Install kubectl
     #   run: |
@@ -72,7 +72,9 @@ jobs:
 
     # - name: Authenticate to EKS Cluster
     #   run: |
-    #     aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region us-east-1
+    #     aws eks update-kubeconfig \
+    #     --name ${{ vars.EKS_CLUSTER_NAME }} \ 
+    #     --region ${{ secrets.AWS_REGION }}
 
     # - name: Deploy ClusterIssuer
     #   run: |
@@ -82,7 +84,7 @@ jobs:
     #   run: |
     #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
-    - name: Terraform Destroy
-      run: |
-        cd infrastructure
-        terraform destroy -auto-approve
+    # - name: Terraform Destroy
+    #   run: |
+    #     cd infrastructure
+    #     terraform destroy -auto-approve

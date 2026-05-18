@@ -107,7 +107,7 @@ variable "namecheap_username" {
 variable "namecheap_client_ip" {
   description = "Client IP for Namecheap API access"
   type        = string
-  default     = "54.84.191.97" # Replace with your actual client IP
+  default     = "35.173.236.43" # Replace with your actual client IP
 }
 
 #===========
