@@ -69,30 +69,30 @@ jobs:
       run: |
         aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
-    - name: Terraform Apply
-      run: |
-        cd infrastructure
-        terraform apply -auto-approve
-      continue-on-error: true  
-
-    #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
-    - name: Debug cert-manager state
-      if: always()
-      run: |
-        kubectl get pods -n cert-manager -o wide || true
-        kubectl describe pods -n cert-manager || true
-        kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
-        kubectl get crd | grep cert || true    
-
-    # - name: Deploy ClusterIssuer
-    #   run: |
-    #     kubectl apply -f infrastructure/ClusterIssuer.yaml
-
-    # - name: Deploy ArgoCD Ingress
-    #   run: |
-    #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
-
-    # - name: Terraform Destroy
+    # - name: Terraform Apply
     #   run: |
     #     cd infrastructure
-    #     terraform destroy -auto-approve
+    #     terraform apply -auto-approve
+    #   continue-on-error: true  
+
+    # #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
+    # - name: Debug cert-manager state
+    #   if: always()
+    #   run: |
+    #     kubectl get pods -n cert-manager -o wide || true
+    #     kubectl describe pods -n cert-manager || true
+    #     kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
+    #     kubectl get crd | grep cert || true    
+
+    - name: Deploy ClusterIssuer
+      run: |
+        kubectl apply -f infrastructure/ClusterIssuer.yaml
+
+    - name: Deploy ArgoCD Ingress
+      run: |
+        kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+
+    - name: Terraform Destroy
+      run: |
+        cd infrastructure
+        terraform destroy -auto-approve
