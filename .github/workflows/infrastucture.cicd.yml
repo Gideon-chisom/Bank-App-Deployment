@@ -63,9 +63,11 @@ jobs:
       run: |
         cd infrastructure
         terraform apply -auto-approve
+      continue-on-error: true  
 
     #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
     - name: Debug cert-manager state
+      if: always()
       run: |
         kubectl get pods -n cert-manager -o wide || true
         kubectl describe pods -n cert-manager || true
