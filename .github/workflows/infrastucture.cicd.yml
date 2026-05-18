@@ -58,12 +58,19 @@ jobs:
       run: |
         cd infrastructure
         terraform plan
-        
+
     - name: Terraform Apply
       run: |
         cd infrastructure
         terraform apply -auto-approve
 
+    #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
+    - name: Debug cert-manager state
+      run: |
+        kubectl get pods -n cert-manager -o wide || true
+        kubectl describe pods -n cert-manager || true
+        kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
+        kubectl get crd | grep cert || true    
     # - name: Install kubectl
     #   run: |
     #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
