@@ -59,6 +59,18 @@ jobs:
         cd infrastructure
         terraform plan
 
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+
+    - name: Authenticate to EKS Cluster
+      run: |
+        aws eks update-kubeconfig \
+        --name ${{ vars.EKS_CLUSTER_NAME }} \ 
+        --region ${{ secrets.AWS_REGION }}
+
     - name: Terraform Apply
       run: |
         cd infrastructure
@@ -73,17 +85,6 @@ jobs:
         kubectl describe pods -n cert-manager || true
         kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
         kubectl get crd | grep cert || true    
-    # - name: Install kubectl
-    #   run: |
-    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    #     chmod +x ./kubectl
-    #     sudo mv ./kubectl /usr/local/bin/kubectl
-
-    # - name: Authenticate to EKS Cluster
-    #   run: |
-    #     aws eks update-kubeconfig \
-    #     --name ${{ vars.EKS_CLUSTER_NAME }} \ 
-    #     --region ${{ secrets.AWS_REGION }}
 
     # - name: Deploy ClusterIssuer
     #   run: |
