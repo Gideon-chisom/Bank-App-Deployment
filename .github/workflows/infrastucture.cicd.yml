@@ -84,13 +84,13 @@ jobs:
     #     kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
     #     kubectl get crd | grep cert || true    
 
-    - name: Deploy ClusterIssuer
-      run: |
-        kubectl apply -f infrastructure/ClusterIssuer.yaml
+    # - name: Deploy ClusterIssuer
+    #   run: |
+    #     kubectl apply -f infrastructure/ClusterIssuer.yaml
 
-    - name: Deploy ArgoCD Ingress
-      run: |
-        kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+    # - name: Deploy ArgoCD Ingress
+    #   run: |
+    #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
   # Split 'destroy' into 2 phases so Kubernetes resources (Helm + manifests) can clean up first before tearing down the cluster/infra
     - name: Kubernetes cleanup (before destroy)
