@@ -67,9 +67,7 @@ jobs:
 
     - name: Authenticate to EKS Cluster
       run: |
-        aws eks update-kubeconfig \
-        --name ${{ vars.EKS_CLUSTER_NAME }} \ 
-        --region ${{ secrets.AWS_REGION }}
+        aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
     - name: Terraform Apply
       run: |
