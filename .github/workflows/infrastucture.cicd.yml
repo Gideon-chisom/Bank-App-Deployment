@@ -92,6 +92,12 @@ jobs:
       run: |
         kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
+  # Split 'destroy' into 2 phases so Kubernetes resources (Helm + manifests) can clean up first before tearing down the cluster/infra
+    - name: Kubernetes cleanup (before destroy)
+      run: |
+        kubectl delete ingress --all -A || true
+        kubectl delete svc --all -A || true
+
     - name: Terraform Destroy
       run: |
         cd infrastructure
