@@ -72,9 +72,9 @@ resource "helm_release" "cert_manager" {
     value = "true"
   }
 
-  wait            = false
-  wait_for_jobs   = false
-  #timeout         = 1200
+  wait            = true
+  wait_for_jobs   = true
+  timeout         = 900
 
   # 🔥 CRITICAL FIX
   atomic          = false
