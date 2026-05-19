@@ -69,13 +69,13 @@ jobs:
       run: |
         aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
-    # - name: Terraform Apply
-    #   run: |
-    #     cd infrastructure
-    #     terraform apply -auto-approve
-    #   continue-on-error: true  
+    - name: Terraform Apply
+      run: |
+        cd infrastructure
+        terraform apply -auto-approve
+      # continue-on-error: true  
 
-    # #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
+    #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
     # - name: Debug cert-manager state
     #   if: always()
     #   run: |
@@ -84,21 +84,21 @@ jobs:
     #     kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
     #     kubectl get crd | grep cert || true    
 
-    # - name: Deploy ClusterIssuer
-    #   run: |
-    #     kubectl apply -f infrastructure/ClusterIssuer.yaml
+    - name: Deploy ClusterIssuer
+      run: |
+        kubectl apply -f infrastructure/ClusterIssuer.yaml
 
-    # - name: Deploy ArgoCD Ingress
-    #   run: |
-    #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+    - name: Deploy ArgoCD Ingress
+      run: |
+        kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
   # Split 'destroy' into 2 phases so Kubernetes resources (Helm + manifests) can clean up first before tearing down the cluster/infra
-    - name: Kubernetes cleanup (before destroy)
-      run: |
-        kubectl delete ingress --all -A || true
-        kubectl delete svc --all -A || true
+    # - name: Kubernetes cleanup (before destroy)
+    #   run: |
+    #     kubectl delete ingress --all -A || true
+    #     kubectl delete svc --all -A || true
 
-    - name: Terraform Destroy
-      run: |
-        cd infrastructure
-        terraform destroy -auto-approve
+    # - name: Terraform Destroy
+    #   run: |
+    #     cd infrastructure
+    #     terraform destroy -auto-approve
