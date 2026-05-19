@@ -9,7 +9,7 @@ on:
 
 jobs:
   Continues-Integration_build_and_push:
-    runs-on: terraform # replace with self-hosted later if needed
+    runs-on: ubuntu-latest # replace with self-hosted later if needed
 
     steps:
     - name: Checkout repository
@@ -47,7 +47,7 @@ jobs:
         docker rmi ${{ vars.ECR_REPO }}/bank-frontend:${{ github.run_number }}
 
   Continues-Update_k8s_manifest:
-    runs-on: terraform
+    runs-on: ubuntu-latest
     needs: Continues-Integration_build_and_push
 
     steps:
