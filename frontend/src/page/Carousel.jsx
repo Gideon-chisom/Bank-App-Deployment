@@ -1,6 +1,7 @@
 
 import carousel from "../images/banking_slider.png";
 import carousel2 from "../images/banking_slider-1.png";
+import carousel3 from "../images/banking_slider.png";
 
 const Carousel = () => {
   return (
