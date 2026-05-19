@@ -61,11 +61,11 @@ jobs:
 
     - name: Update Kubernetes manifest
       run: |
-        sed -i "s+${{ vars.ECR_REPO }}/bank-frontend:.*+${{ vars.ECR_REPO }}/bank-frontend:${{ github.run_number }}+g" kubernetes-manifest/bank-project/frontend.yaml
+        sed -i "s+${{ vars.ECR_REPO }}/bank-frontend:.*+${{ vars.ECR_REPO }}/bank-frontend:${{ github.run_number }}+g" Kubernetes-manifest/bank-project/frontend.yaml
 
     - name: Commit and push changes (if any)
       run: |
-        git add kubernetes-manifest/bank-project/frontend.yaml
+        git add Kubernetes-manifest/bank-project/frontend.yaml
 
         git diff --quiet && echo "No changes to commit" || \
         git commit -m "Updated frontend image to version ${{ github.run_number }}"
