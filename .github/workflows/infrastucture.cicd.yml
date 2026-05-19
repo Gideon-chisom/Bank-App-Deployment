@@ -59,6 +59,12 @@ jobs:
         cd infrastructure
         terraform plan
 
+    - name: Terraform Apply
+      run: |
+        cd infrastructure
+        terraform apply -auto-approve
+      # continue-on-error: true  
+
     - name: Install kubectl
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -68,12 +74,6 @@ jobs:
     - name: Authenticate to EKS Cluster
       run: |
         aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
-
-    - name: Terraform Apply
-      run: |
-        cd infrastructure
-        terraform apply -auto-approve
-      # continue-on-error: true  
 
     #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
     # - name: Debug cert-manager state
