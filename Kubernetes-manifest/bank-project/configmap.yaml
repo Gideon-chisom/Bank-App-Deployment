@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: bank-config
 data:
-  DB_HOST: "production-mysql-db.cy5kq4kc4fvc.us-east-1.rds.amazonaws.com"
+  DB_HOST: "staging-mysql-db.c83uyoa8cvk6.us-east-1.rds.amazonaws.com"
   DB_PORT: "3306"
-  DB_NAME: "production-mysql-db"
+  DB_NAME: "staging-mysql-db"
   REACT_APP_API_URL: https://bankapi.cloudelite9.online

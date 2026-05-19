@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend-banking-container
-        image: 326343572889.dkr.ecr.us-east-1.amazonaws.com/bank-frontend:37
+        image: 463470976076.dkr.ecr.us-east-1.amazonaws.com/bank-frontend:01
         ports:
         - containerPort: 3000
         env:
@@ -23,4 +23,3 @@ spec:
             configMapKeyRef:
               name: bank-config
               key: REACT_APP_API_URL
-#corrected
