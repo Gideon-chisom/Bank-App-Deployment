@@ -29,35 +29,35 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
-    # - name: Install tfsec
-    #   run: |
-    #     curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
-    #     chmod +x tfsec
+    - name: Install tfsec
+      run: |
+        curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
+        chmod +x tfsec
 
-    # - name: Terraform Init
-    #   run: |
-    #     cd infrastructure
-    #     terraform init
+    - name: Terraform Init
+      run: |
+        cd infrastructure
+        terraform init
 
-    # - name: Terraform Format
-    #   run: |
-    #     cd infrastructure
-    #     terraform fmt
+    - name: Terraform Format
+      run: |
+        cd infrastructure
+        terraform fmt
 
-    # - name: Terraform Validate
-    #   run: |
-    #     cd infrastructure
-    #     terraform validate
+    - name: Terraform Validate
+      run: |
+        cd infrastructure
+        terraform validate
 
-    # - name: tfsec Security Scan
-    #   run: |
-    #     cd infrastructure
-    #     ./tfsec . || true
+    - name: tfsec Security Scan
+      run: |
+        cd infrastructure
+        ./tfsec . || true
 
-    # - name: Terraform Plan
-    #   run: |
-    #     cd infrastructure
-    #     terraform plan
+    - name: Terraform Plan
+      run: |
+        cd infrastructure
+        terraform plan
 
     # - name: Terraform Apply
     #   run: |
