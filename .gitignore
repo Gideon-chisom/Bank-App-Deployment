@@ -65,6 +65,7 @@ terraform.tfvars
 .tfstate.
 override.tf
 override.tf.json
+final-working-state.json
 
 # --- Sensitive Files ---
 *.pem

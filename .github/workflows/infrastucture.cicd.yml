@@ -29,51 +29,51 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
-    - name: Install tfsec
-      run: |
-        curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
-        chmod +x tfsec
+    # - name: Install tfsec
+    #   run: |
+    #     curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
+    #     chmod +x tfsec
 
-    - name: Terraform Init
-      run: |
-        cd infrastructure
-        terraform init
+    # - name: Terraform Init
+    #   run: |
+    #     cd infrastructure
+    #     terraform init
 
-    - name: Terraform Format
-      run: |
-        cd infrastructure
-        terraform fmt
+    # - name: Terraform Format
+    #   run: |
+    #     cd infrastructure
+    #     terraform fmt
 
-    - name: Terraform Validate
-      run: |
-        cd infrastructure
-        terraform validate
+    # - name: Terraform Validate
+    #   run: |
+    #     cd infrastructure
+    #     terraform validate
 
-    - name: tfsec Security Scan
-      run: |
-        cd infrastructure
-        ./tfsec . || true
+    # - name: tfsec Security Scan
+    #   run: |
+    #     cd infrastructure
+    #     ./tfsec . || true
 
-    - name: Terraform Plan
-      run: |
-        cd infrastructure
-        terraform plan
+    # - name: Terraform Plan
+    #   run: |
+    #     cd infrastructure
+    #     terraform plan
 
-    - name: Terraform Apply
-      run: |
-        cd infrastructure
-        terraform apply -auto-approve
-      # continue-on-error: true  
+    # - name: Terraform Apply
+    #   run: |
+    #     cd infrastructure
+    #     terraform apply -auto-approve
+    #   # continue-on-error: true  
 
-    - name: Install kubectl
-      run: |
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x ./kubectl
-        sudo mv ./kubectl /usr/local/bin/kubectl
+    # - name: Install kubectl
+    #   run: |
+    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    #     chmod +x ./kubectl
+    #     sudo mv ./kubectl /usr/local/bin/kubectl
 
-    - name: Authenticate to EKS Cluster
-      run: |
-        aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+    # - name: Authenticate to EKS Cluster
+    #   run: |
+    #     aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
     #DEBUGGING STEPS - COMMENT OUT IN PRODUCTION
     # - name: Debug cert-manager state
@@ -84,21 +84,21 @@ jobs:
     #     kubectl get events -n cert-manager --sort-by=.metadata.creationTimestamp || true
     #     kubectl get crd | grep cert || true    
 
-    - name: Deploy ClusterIssuer
-      run: |
-        kubectl apply -f infrastructure/ClusterIssuer.yaml
+    # - name: Deploy ClusterIssuer
+    #   run: |
+    #     kubectl apply -f infrastructure/ClusterIssuer.yaml
 
-    - name: Deploy ArgoCD Ingress
-      run: |
-        kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
+    # - name: Deploy ArgoCD Ingress
+    #   run: |
+    #     kubectl apply -f infrastructure/ingress-argocd.yaml -n argocd
 
   # Split 'destroy' into 2 phases so Kubernetes resources (Helm + manifests) can clean up first before tearing down the cluster/infra
-    # - name: Kubernetes cleanup (before destroy)
-    #   run: |
-    #     kubectl delete ingress --all -A || true
-    #     kubectl delete svc --all -A || true
+    - name: Kubernetes cleanup (before destroy)
+      run: |
+        kubectl delete ingress --all -A || true
+        kubectl delete svc --all -A || true
 
-    # - name: Terraform Destroy
-    #   run: |
-    #     cd infrastructure
-    #     terraform destroy -auto-approve
+    - name: Terraform Destroy
+      run: |
+        cd infrastructure
+        terraform destroy -auto-approve
